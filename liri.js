@@ -58,16 +58,6 @@ function songSearch() {
 	  }
 	}
 
-	// spotify.search({ type: 'track', query: "'" + songName + "'" }, function(err, data) {
-	//     if ( err ) {
-	//         console.log('Error occurred: ' + err);
-	//         return;
-	//     } 
-	//     for (var i = 0; i < data.length; i++) {
-	// 		console.log("Artist Name: " + data.tracks.items[i].artist[i].name);
-	// 	};
-	// });
-
 	var queryUrl = "https://api.spotify.com/v1/search?query=" + songName + "&offset=0&limit=5&type=track";
 
 	https.get(queryUrl, function (response){
@@ -77,7 +67,7 @@ function songSearch() {
 	    str += data;
 	  });
 	  response.on('end', function (err, data){
-	  if (songName === "") {
+	  if (songName === "" || songName === '""') {
 			var queryUrl = "https://api.spotify.com/v1/search?query=ace+of+base+the+sign&offset=0&limit=5&type=track";
 			https.get(queryUrl, function (response){
 			    var str = '';
@@ -106,7 +96,7 @@ function songSearch() {
 			    var songPreview = JSON.parse(str).tracks.items[0].external_urls.spotify;
 			    var albumTitle = JSON.parse(str).tracks.items[0].album.name;
 				console.log("                                                 ");
-				console.log("Here is the information on the song you searched:");
+				console.log("Here is the information for the song you searched:");
 				console.log("----------------------------------------------");
 			    console.log(artistName);
 			    console.log(songTitle);
@@ -138,6 +128,9 @@ function movieSearch() {
 	request(queryUrl, function(error, response, body) {
 	  if (movieName === "") {
 	  	request(queryUrlNobody, function(error, response, body) {
+	  		console.log("                                                                    ");
+	  		console.log("Since you didn't search for a movie, here is the info for Mr. Nobody:");
+			console.log("--------------------------------------------------------------------");
 	  		console.log("Title: " + JSON.parse(body).Title);
 		    console.log("Release Year: " + JSON.parse(body).Year); 
 		    console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -147,10 +140,14 @@ function movieSearch() {
 		    console.log("Actors: " + JSON.parse(body).Actors); 
 		   	console.log("Rotten Tomatos Rating: " + JSON.parse(body).tomatoRating);
 		   	console.log("Rotten Tomatos URL: " + JSON.parse(body).tomatoURL);
+		   	console.log("--------------------------------------------------------------------");
 	  	});
 	  };
 	  // If the request is successful
 	  if (!error && response.statusCode === 200 && movieName !== "") {
+	  	console.log("                                                   ");
+	  	console.log("Here is the information for the movie you searched:");
+	  	console.log("---------------------------------------------------");
 	    console.log("Title: " + JSON.parse(body).Title);
 	    console.log("Release Year: " + JSON.parse(body).Year); 
 	    console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -160,12 +157,29 @@ function movieSearch() {
 	    console.log("Actors: " + JSON.parse(body).Actors); 
 	   	console.log("Rotten Tomatos Rating: " + JSON.parse(body).tomatoRating);
 	   	console.log("Rotten Tomatos URL: " + JSON.parse(body).tomatoURL);
+	   	console.log("---------------------------------------------------");
 	  } 
 	});
 }
 
 
 function random() {
+  fs.readFile('random.txt', 'utf8', (err, data) => {
 	
+	  if (err) throw err;
+
+	  var output = data.split(',');
+
+	  for (var i = 0; i < output.length; i++) {
+	  	console.log(output[i]);
+	  }
+
+	  var dwisThing = output[1];
+
+	  songName = dwisThing;
+
+	  songSearch();
+
+	});
 }
 
