@@ -97,12 +97,12 @@ function songSearch() {
 			    var albumTitle = JSON.parse(str).tracks.items[0].album.name;
 				console.log("                                                 ");
 				console.log("Here is the information for the song you searched:");
-				console.log("----------------------------------------------");
+				console.log("--------------------------------------------------");
 			    console.log(artistName);
 			    console.log(songTitle);
 			    console.log(songPreview);
 			    console.log(albumTitle);
-			    console.log("----------------------------------------------");
+			    console.log("--------------------------------------------------");
 			};
 	  });
   });	 
