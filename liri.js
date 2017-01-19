@@ -39,7 +39,7 @@ switch (command) {
 function tweets() {
 	var keys = require("./keys.js");
 	var client = new Twitter(keys.twitterKeys);
-	var params = {screen_name: 'wrnecmrn1'};
+	var params = {screen_name: 'wrnecmrn1', limit: '20'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
 	  if (!error) {
 	  	for (var i = 0; i < tweets.length; i++) {
